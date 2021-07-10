@@ -1,9 +1,9 @@
 <template>
   <button
-    class="px-4 py-2 rounded focus:outline-none focus:none"
+    class="px-4 py-2 rounded focus:outline-none focus:none font-bold uppercase active:none"
     :class="[colors, textButton]"
   >
-    Sumar
+    <slot>Sumar</slot>
   </button>
 </template>
 
@@ -16,6 +16,7 @@ interface classes {
 
 export default defineComponent({
   name: "PrimaryButton",
+
   setup: (props) => {
     const colors = computed(
       (): classes => {

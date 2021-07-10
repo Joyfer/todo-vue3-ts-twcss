@@ -1,7 +1,8 @@
 <template>
-  <img class="mx-auto" alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
-  <router-view></router-view>
+  <div class="container mx-auto px-2">
+    <HelloWorld msg="Welcome to my TODO with Vue 3 - TS - TWCSS" />
+    <router-view></router-view>
+  </div>
 </template>
 
 <script lang="ts">
@@ -17,11 +18,13 @@ export default defineComponent({
 </script>
 
 <style>
+body {
+  background: rgb(238, 242, 243);
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Rubik", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
   margin-top: 60px;
 }

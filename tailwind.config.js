@@ -7,12 +7,12 @@ module.exports = {
     extend: {
       colors: {
         primary: { light: colors.purple[500], DEFAULT: colors.purple[600] },
-        secondary: {light: colors.red[500], DEFAULT: colors.red[600]}
+        secondary: { light: colors.red[500], DEFAULT: colors.red[600] },
       },
     },
   },
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/forms")],
 };

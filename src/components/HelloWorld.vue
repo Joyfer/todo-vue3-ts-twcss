@@ -1,27 +1,25 @@
 <template>
   <h1>{{ msg }}</h1>
-  <h2>{{ count }}</h2>
-  <PrimaryButton @click="sumar" :color="text" />
+  <h2 class="mt-3">Start adding some item!</h2>
+ <input type="text" class="rounded w-full mb-2 border-0 shadow" />
+  <PrimaryButton class="w-full">Add</PrimaryButton>
 </template>
 
 <script lang="ts">
 import { ref, defineComponent } from "vue";
 import PrimaryButton from "./resources/buttons/PrimaryButton.vue";
+
 export default defineComponent({
   name: "HelloWorld",
   components: {
     PrimaryButton,
   },
-  setup: () => {
-    const count = ref(0);
-    const text = ref("primary");
-    const sumar = (): void => {
-      count.value++;
-      text.value = "secondary";
-    };
 
-    return { count, sumar, text };
+  setup: () => {
+
+    return { };
   },
+
   props: {
     msg: {
       type: String,
