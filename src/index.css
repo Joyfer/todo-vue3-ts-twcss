@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.color-primary{
+    @apply bg-purple-600
+}
