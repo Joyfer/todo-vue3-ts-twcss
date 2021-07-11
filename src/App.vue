@@ -1,13 +1,3 @@
-<template>
-  <div class="container mx-auto px-2">
-    <CatImageSvg />
-    <h1 class="text-7xl my-3">TODO</h1>
-    <h1 class="text-xl">Welcome to my TODO with Vue 3, TS and TWCSS</h1>
-    <HelloWorld/>
-    <router-view></router-view>
-  </div>
-</template>
-
 <script lang="ts">
 import { defineComponent } from "vue";
 import HelloWorld from "./components/HelloWorld.vue";
@@ -20,6 +10,18 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <div class="container mx-auto px-2 sm:w-10/12 md:w-1/2">
+    <div class="sm:w-6/12 md:w-1/2 mx-auto">
+      <CatImageSvg />
+    </div>
+    <h1 class="text-7xl my-3">TODO</h1>
+    <h1 class="text-xl">Welcome! Made with Vue 3, TypeScript and Tailwind CSS 🐱‍👓</h1>
+    <span class="text-sm">11/7/2021</span>
+    <HelloWorld />
+  </div>
+</template>
 
 <style>
 body {

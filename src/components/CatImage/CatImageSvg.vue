@@ -1174,7 +1174,7 @@
         </g>
       </g>
     </svg>
-    <a href="https://www.freepik.es/catalyststuff" class="text-primary text-xs w-full text-center"
+    <a href="https://www.freepik.es/catalyststuff" target="_blank" class="text-primary text-xs w-full text-center"
       >Illustration created by catalyststuff - www.freepik.es</a
     >
   </div>
@@ -1185,9 +1185,6 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "CatImageSvg",
-  setup() {
-    return {};
-  },
 });
 </script>
 

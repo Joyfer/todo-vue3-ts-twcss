@@ -22,11 +22,11 @@ export default defineComponent({
     const colors = computed(
       (): classes => {
         return {
-          "bg-primary hover:bg-primary-light text-white shadow":
+          "bg-primary hover:bg-primary-light text-white shadow hover:shadow-md":
             props.color === "primary" && props.text === false,
-          "bg-secondary hover:bg-secondary-light text-white shadow":
+          "bg-secondary hover:bg-secondary-light text-white shadow hover:shadow-md":
             props.color === "secondary" && props.text === false,
-          "bg-success hover:bg-success-light text-white shadow":
+          "bg-success hover:bg-success-light text-white shadow hover:shadow-md":
             props.color === "success" && props.text === false,
         };
       }
@@ -52,7 +52,7 @@ export default defineComponent({
 
 <template>
   <button
-    class="px-4 py-2 rounded focus:outline-none focus:none font-bold uppercase active:none"
+    class="px-4 py-2 rounded focus:outline-none focus:none font-bold uppercase active:none transition duration-300 ease-in-out"
     :class="[colors, textButton]"
   >
     <slot>Sumar</slot>
