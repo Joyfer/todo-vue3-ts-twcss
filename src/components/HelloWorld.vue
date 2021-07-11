@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text-7xl mb-3">TODO</h1>
+  <h1 class="text-7xl my-3">TODO</h1>
   <h1 class="text-xl">{{ msg }}</h1>
   <div class="mt-3">
     <label for="add">Start adding some item!</label>

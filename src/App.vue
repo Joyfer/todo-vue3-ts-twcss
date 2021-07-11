@@ -1,5 +1,6 @@
 <template>
   <div class="container mx-auto px-2">
+    <CatImageSvg />
     <HelloWorld msg="Welcome to my TODO with Vue 3, TS and TWCSS" />
     <router-view></router-view>
   </div>
@@ -8,11 +9,12 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import HelloWorld from "./components/HelloWorld.vue";
-
+import CatImageSvg from "./components/CatImage/CatImageSvg.vue"
 export default defineComponent({
   name: "App",
   components: {
     HelloWorld,
+    CatImageSvg
   },
 });
 </script>
@@ -26,6 +28,5 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  margin-top: 20px;
 }
 </style>
