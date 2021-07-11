@@ -8,7 +8,7 @@ module.exports = {
       colors: {
         primary: { light: "#2489cc", DEFAULT: "#007acc"},
         secondary: { light: colors.red[500], DEFAULT: colors.red[600] },
-        success: {light: "#64e2a9" , DEFAULT: "#41B883"}
+        success: {light: "#5dd8a0" , DEFAULT: "#41B883"}
       },
     },
   },

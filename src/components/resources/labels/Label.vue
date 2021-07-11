@@ -42,8 +42,8 @@ export default defineComponent({
     class="flex items-center justify-center text-white rounded shadow-sm px-2"
     :class="variant"
   >
-    <span>Pending</span>
-    <SvgIcon :size="18" type="mdi" :path="icon" class="ml-1" />
+    <slot>Pending</slot>
+    <SvgIcon v-if="icon" :size="18" type="mdi" :path="icon" class="ml-1" />
   </div>
 </template>
 
