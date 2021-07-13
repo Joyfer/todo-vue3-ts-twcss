@@ -1,0 +1,1 @@
+import{d as a,p as e,e as s,o,f as t,w as d,g as n}from"./vendor.e0eb5142.js";var r=a({name:"Home",setup:()=>({})});const c=d();e("data-v-0b2a56c5");const l=n("h1",null,"Home",-1);s();const m=c(((a,e,s,d,n,r)=>(o(),t("div",null,[l]))));r.render=m,r.__scopeId="data-v-0b2a56c5";export default r;
