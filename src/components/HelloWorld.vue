@@ -51,9 +51,8 @@ export default defineComponent({
       let gettingObjects = getLocalStorage();
 
       if (gettingObjects != "") {
-        let parsed = await JSON.parse(gettingObjects);
-        todoList.data.forEach((el) => todoList.data.push(el));
-        console.log(todoList);
+        let parsed: Todo.JSONObj = await JSON.parse(gettingObjects);
+        todoList.data = parsed.data
       } else {
         return;
       }
@@ -76,6 +75,7 @@ export default defineComponent({
       todoList.data[index].status = Todo.status.Completed;
       todoList.data.push(todoList.data[index]);
       todoList.data.splice(index, 1);
+      setLocalStorage(todoList);
     };
 
     const deleteItem = (index: number): void => {
