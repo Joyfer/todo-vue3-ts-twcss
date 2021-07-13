@@ -48,9 +48,15 @@ export default defineComponent({
     const { getLocalStorage, setLocalStorage } = useLocalStorage("todo");
 
     const getTodoLocalStorage = async (): Promise<void> => {
-      let gettingObjects = getLocalStorage(),
-        parsed = await JSON.parse(gettingObjects);
-      todoList.data.push(parsed.data);
+      let gettingObjects = getLocalStorage();
+
+      if (gettingObjects != "") {
+        let parsed = await JSON.parse(gettingObjects);
+        todoList.data.forEach((el) => todoList.data.push(el));
+        console.log(todoList);
+      } else {
+        return;
+      }
     };
 
     onMounted(getTodoLocalStorage);
@@ -61,7 +67,7 @@ export default defineComponent({
         category: formInputs[1].value,
         status: Todo.status.Pending,
       };
-      todoList.data.push(myNewTodoItem);
+      todoList.data.unshift(myNewTodoItem);
       formInputs.forEach((el) => (el.value = ""));
       setLocalStorage(todoList);
     };
@@ -74,6 +80,7 @@ export default defineComponent({
 
     const deleteItem = (index: number): void => {
       todoList.data.splice(index, 1);
+      setLocalStorage(todoList);
     };
 
     const variantColor = (statusE: Todo.status): string => {
@@ -137,7 +144,7 @@ export default defineComponent({
     }}</Label
   >
   <div class="space-y-3">
-    <transition-group name="list">
+    <transition-group name="list" >
       <Card
         v-for="({ category, description, status }, index) in filteringTodo"
         :key="index"
@@ -189,7 +196,6 @@ label {
 }
 .list-item {
   display: inline-block;
-  margin-right: 10px;
 }
 .list-enter-active,
 .list-leave-active {
@@ -198,6 +204,6 @@ label {
 .list-enter-from,
 .list-leave-to {
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateX(30px);
 }
 </style>
