@@ -12,7 +12,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="container mx-auto px-2 sm:w-10/12 md:w-1/2">
+  <div class="container px-2 mx-auto py-2 sm:w-10/12 md:w-1/2">
     <div class="sm:w-6/12 md:w-1/2 mx-auto">
       <CatImageSvg />
     </div>

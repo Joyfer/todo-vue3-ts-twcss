@@ -1,13 +1,16 @@
 <script lang="ts">
-import { ref, defineComponent, reactive, computed } from "vue";
+import { ref, defineComponent, reactive, computed, onMounted } from "vue";
 import PrimaryButton from "./resources/buttons/PrimaryButton.vue";
 import Card from "./resources/card/Card.vue";
 import Label from "./resources/labels/Label.vue";
+import { Todo } from "../composable/InterfacesEnums";
+import useLocalStorage from "../composable/useLocalStorage";
 //MDI
 import {
   mdiClockAlertOutline,
   mdiCloseCircle,
   mdiClockCheckOutline,
+  mdiTrashCanOutline,
 } from "@mdi/js";
 
 export default defineComponent({
@@ -18,30 +21,20 @@ export default defineComponent({
     Label,
   },
   setup: () => {
-    interface ObjectTodo {
-      category: string;
-      description: string;
-      status: status;
-    }
-
-    interface FormAdd {
-      name: string;
-      value: string;
-    }
-
-    enum status {
-      Completed = "completed",
-      Pending = "pending",
-    }
-
     const icons = reactive({
       clock: mdiClockAlertOutline,
       close: mdiCloseCircle,
       checked: mdiClockCheckOutline,
+      trash: mdiTrashCanOutline,
     });
-    const todoList: ObjectTodo[] = reactive([]);
+
+    const todoList: Todo.JSONObj = reactive({
+      data: [
+        { category: "hi", description: "nicee", status: Todo.status.Completed },
+      ],
+    });
     const queryFilter = ref("");
-    const formInputs: FormAdd[] = reactive([
+    const formInputs: Todo.FormAdd[] = reactive([
       {
         name: "description",
         value: "",
@@ -52,37 +45,56 @@ export default defineComponent({
       },
     ]);
 
+    const { getLocalStorage, setLocalStorage } = useLocalStorage("todo");
+
+    const getTodoLocalStorage = async (): Promise<void> => {
+      let gettingObjects = getLocalStorage(),
+        parsed = await JSON.parse(gettingObjects);
+      todoList.data.push(parsed.data);
+    };
+
+    onMounted(getTodoLocalStorage);
+
     const add = (): void => {
-      let myNewTodoItem: ObjectTodo = {
+      let myNewTodoItem = {
         description: formInputs[0].value,
         category: formInputs[1].value,
-        status: status.Pending,
+        status: Todo.status.Pending,
       };
-      todoList.push(myNewTodoItem);
+      todoList.data.push(myNewTodoItem);
       formInputs.forEach((el) => (el.value = ""));
+      setLocalStorage(todoList);
     };
 
     const changeStatus = (index: number): void => {
-      todoList[index].status = status.Completed;
+      todoList.data[index].status = Todo.status.Completed;
+      todoList.data.push(todoList.data[index]);
+      todoList.data.splice(index, 1);
     };
 
     const deleteItem = (index: number): void => {
-      todoList.splice(index, 1);
+      todoList.data.splice(index, 1);
     };
 
-    const variantColor = (statusE: status): string => {
-      if (statusE === status.Completed) {
+    const variantColor = (statusE: Todo.status): string => {
+      if (statusE === Todo.status.Completed) {
         return "success";
-      } else if (statusE === status.Pending) {
+      } else if (statusE === Todo.status.Pending) {
         return "primary";
       } else {
         return "none";
       }
     };
 
-    const filteringTodo = computed((): ObjectTodo[] =>
-      todoList.filter((el) => el.category.includes(queryFilter.value))
-    );
+    const filteringTodo = computed(() => {
+      if (queryFilter.value.length > 0) {
+        return todoList.data.filter((el) =>
+          el.category.includes(queryFilter.value)
+        );
+      } else {
+        return todoList.data;
+      }
+    });
 
     return {
       icons,
@@ -125,44 +137,48 @@ export default defineComponent({
     }}</Label
   >
   <div class="space-y-3">
-    <Card
-      v-for="({ category, description, status }, index) in filteringTodo"
-      :key="index"
-    >
-      <template #header>
-        <h4
-          @click="queryFilter = category"
-          class="text-gray-500 text-sm cursor-pointer"
-        >
-          {{ category }}
-        </h4>
-        <Label :variant="variantColor(status)" :icon="icons.clock">{{
-          status
-        }}</Label>
-      </template>
-      <template #default
-        ><h2 class="text-xl my-4">{{ description }}</h2></template
+    <transition-group name="list">
+      <Card
+        v-for="({ category, description, status }, index) in filteringTodo"
+        :key="index"
       >
-      <template #actions>
-        <div>
-          <PrimaryButton
-            @click="deleteItem(index)"
-            :text="true"
-            class="w-1/2"
-            color="secondary"
-            >Delete</PrimaryButton
+        <template #header>
+          <h4
+            @click="queryFilter = category"
+            class="text-gray-500 text-sm cursor-pointer"
           >
-          <PrimaryButton
-            v-if="status != 'completed'"
-            @click="changeStatus(index)"
-            :text="true"
-            class="w-1/2"
-            color="success"
-            >Finished</PrimaryButton
-          >
-        </div>
-      </template>
-    </Card>
+            {{ category }}
+          </h4>
+          <Label :variant="variantColor(status)" :icon="icons.clock">{{
+            status
+          }}</Label>
+        </template>
+        <template #default
+          ><h2 class="text-xl my-4">{{ description }}</h2></template
+        >
+        <template #actions>
+          <div class="flex justify-end">
+            <PrimaryButton
+              @click="deleteItem(index)"
+              :text="true"
+              class="md:w-1/4"
+              color="secondary"
+              :icon="icons.trash"
+              >Delete</PrimaryButton
+            >
+            <PrimaryButton
+              v-if="status != 'completed'"
+              @click="changeStatus(index)"
+              :text="true"
+              class="md:w-1/4"
+              color="success"
+              :icon="icons.checked"
+              >Finished</PrimaryButton
+            >
+          </div>
+        </template>
+      </Card>
+    </transition-group>
   </div>
 </template>
 
@@ -170,5 +186,18 @@ export default defineComponent({
 label {
   margin: 0 0.5em;
   font-weight: bold;
+}
+.list-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+.list-enter-active,
+.list-leave-active {
+  transition: all 1s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
 }
 </style>

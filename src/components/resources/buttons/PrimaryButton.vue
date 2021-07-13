@@ -1,5 +1,7 @@
 <script lang="ts">
 import { defineComponent, computed } from "vue";
+// @ts-ignore
+import SvgIcon from "@jamescoyle/vue-icon";
 
 interface classes {
   [index: string]: boolean;
@@ -7,6 +9,9 @@ interface classes {
 
 export default defineComponent({
   name: "PrimaryButton",
+  components: {
+    SvgIcon,
+  },
   props: {
     color: {
       type: String,
@@ -16,6 +21,7 @@ export default defineComponent({
         ["primary", "secondary", "success"].includes(val),
     },
     text: { type: Boolean, required: false, default: false },
+    icon: { type: String, required: false },
   },
 
   setup: (props) => {
@@ -52,10 +58,13 @@ export default defineComponent({
 
 <template>
   <button
-    class="px-4 py-2 rounded focus:outline-none focus:none font-bold uppercase active:none transition duration-300 ease-in-out"
+    class="px-2 py-1 rounded focus:outline-none focus:none active:none transition duration-300 ease-in-out"
     :class="[colors, textButton]"
   >
-    <slot>Sumar</slot>
+    <span class="text-sm font-bold uppercase inline-flex"
+      ><slot>Sumar</slot
+      ><SvgIcon v-if="icon" class="ml-2" type="mdi" :size="18" :path="icon"></SvgIcon
+    ></span>
   </button>
 </template>
 
